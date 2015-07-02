@@ -1,6 +1,6 @@
 function [results]=read_results(data,size)
 
-ONLINE_DELAY=4;
+ONLINE_DELAY=0;
 Number_of_bits=8;
 %1 cycle of initilization
 %2 cycles of addition dealy
@@ -17,7 +17,9 @@ tmpwords(1:round((size-ONLINE_DELAY)/Number_of_bits))=0;
 
 for i=1:round((size-ONLINE_DELAY)/Number_of_bits) %computer words
     for j=1:Number_of_bits
-        tmpword(j)=mod(round(new_data((i-1)*Number_of_bits+j)/10),10)-mod(new_data((i-1)*Number_of_bits+j),10);
+        if((i-1)*Number_of_bits+j<size)
+         tmpword(j)=mod(round(new_data((i-1)*Number_of_bits+j)/10),10)-mod(new_data((i-1)*Number_of_bits+j),10);
+        end
     end
     
     for j=1:Number_of_bits
@@ -25,7 +27,7 @@ for i=1:round((size-ONLINE_DELAY)/Number_of_bits) %computer words
     end
 end
 
-results=tmpwords;
+results=tmpwords';
 
 
     
